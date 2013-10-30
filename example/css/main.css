@@ -1,0 +1,26 @@
+.example {
+    margin: 30px auto;
+    width: 640px;
+    height: 480px;
+    border: 1px solid #000;
+    overflow: hidden;
+}
+
+.example img {
+    display: block;
+    cursor: move;
+}
+
+.position {
+    position: relative;
+}
+.position img {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.scroll img {
+    width: 1280px;
+    height: 960px;
+}
