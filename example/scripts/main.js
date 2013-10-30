@@ -5,8 +5,8 @@ var test = test || {};
 (function ($) {
     "use strict";
     test.transform = new Dragger('.transform', {
-        drag: function (x, y) {
-            this.$el.find('img').css({ transform: 'translate('+x+'px,'+y+'px)' });
+        drag: function (pos) {
+            this.$el.find('img').css({ transform: 'translate('+pos.x+'px,'+pos.y+'px)' });
         }
     });
 }(jQuery));
@@ -15,8 +15,8 @@ var test = test || {};
 (function ($) {
     "use strict";
     test.position = new Dragger('.position', {
-        drag: function (x, y) {
-            this.$el.find('img').css({ left: x, top: y });
+        drag: function (pos) {
+            this.$el.find('img').css({ left: pos.x, top: pos.y });
         }
     });
 }(jQuery));
@@ -25,9 +25,9 @@ var test = test || {};
 (function ($) {
     "use strict";
     test.scroll = new Dragger('.scroll', {
-        drag: function (x, y) {
-            this.$el.scrollLeft(-x);
-            this.$el.scrollTop(-y);
+        drag: function (pos) {
+            this.$el.scrollLeft(-pos.x);
+            this.$el.scrollTop(-pos.y);
         }
     });
 }(jQuery));

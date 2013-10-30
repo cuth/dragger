@@ -19,11 +19,11 @@
                 y: (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
             }
         },
-        moveHandle = function (cursorPos) {
+        getNewPos = function (cursorPos) {
             var diffX = cursorPos.x - this.dragStart.mouseX,
                 diffY = cursorPos.y - this.dragStart.mouseY,
                 newX, newY;
-            if (diffX === this.dragStart.diffX && diffY === this.dragStart.diffY) return;
+            if (diffX === this.dragStart.diffX && diffY === this.dragStart.diffY) return false;
             this.dragStart.diffX = diffX;
             this.dragStart.diffY = diffY;
             newX = diffX + this.handle.x;
@@ -40,35 +40,25 @@
             if (this.opts.bounds.maxY) {
                 newY = Math.min(newY, this.opts.bounds.maxY);
             }
+            return {
+                x: newX,
+                y: newY
+            };
+        },
+        moveHandle = function (cursorPos) {
+            var newPos = getNewPos.call(this, cursorPos);
+            if (!newPos) return;
             if (typeof this.opts.drag === 'function') {
-                this.opts.drag.call(this, newX, newY);
+                this.opts.drag.call(this, newPos);
             }
         },
         stopDrag = function (cursorPos) {
             if (!this.dragging) return;
-            var diffX = cursorPos.x - this.dragStart.mouseX,
-                diffY = cursorPos.y - this.dragStart.mouseY,
-                newX, newY;
-            this.dragStart.diffX = diffX;
-            this.dragStart.diffY = diffY;
-            newX = diffX + this.handle.x;
-            newY = diffY + this.handle.y;
-            if (this.opts.bounds.minX) {
-                newX = Math.max(newX, this.opts.bounds.minX);
-            }
-            if (this.opts.bounds.maxX) {
-                newX = Math.min(newX, this.opts.bounds.maxX);
-            }
-            if (this.opts.bounds.minY) {
-                newY = Math.max(newY, this.opts.bounds.minY);
-            }
-            if (this.opts.bounds.maxY) {
-                newY = Math.min(newY, this.opts.bounds.maxY);
-            }
-            this.handle.x = newX;
-            this.handle.y = newY;
+            var newPos = getNewPos.call(this, cursorPos);
+            this.handle.x = newPos.x;
+            this.handle.y = newPos.y;
             if (typeof this.opts.stop === 'function') {
-                this.opts.stop.call(this, newX, newY);
+                this.opts.stop.call(this, newPos);
             }
             this.dragging = false;
         },
@@ -83,7 +73,7 @@
                 scrollY: pageScroll.y
             };
             if (typeof this.opts.start === 'function') {
-                this.opts.start.call(this);
+                this.opts.start.call(this, this.handle);
             }
         },
         bindEvents = function () {
