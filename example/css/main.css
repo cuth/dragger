@@ -4,11 +4,11 @@
     height: 480px;
     border: 1px solid #000;
     overflow: hidden;
+    cursor: move;
 }
 
 .example img {
     display: block;
-    cursor: move;
 }
 
 .position {

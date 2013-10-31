@@ -24,14 +24,20 @@ var test = test || {};
 // Scroll
 (function ($) {
     "use strict";
-    test.scroll = new Dragger('.scroll', {
+    var $scroll = $('.scroll'),
+        $img = $scroll.find('img'),
+        xSpace = $img.width() - $scroll.width(),
+        ySpace = $img.height() - $scroll.height();
+    test.scroll = new Dragger($scroll, {
         drag: function (pos) {
             this.$el.scrollLeft(-pos.x);
             this.$el.scrollTop(-pos.y);
         },
         bounds: {
-            minX: -100,
-            minY: -100
+            maxX: 0,
+            maxY: 0,
+            minX: -xSpace,
+            minY: -ySpace
         }
     });
 }(jQuery));
