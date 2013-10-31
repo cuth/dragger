@@ -19,25 +19,25 @@
                 y: (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
             }
         },
-        getNewPos = function (cursorPos) {
+        getNewPos = function (cursorPos, force) {
             var diffX = cursorPos.x - this.dragStart.mouseX,
                 diffY = cursorPos.y - this.dragStart.mouseY,
                 newX, newY;
-            if (diffX === this.dragStart.diffX && diffY === this.dragStart.diffY) return false;
+            if (!force && (diffX === this.dragStart.diffX && diffY === this.dragStart.diffY)) return false;
             this.dragStart.diffX = diffX;
             this.dragStart.diffY = diffY;
             newX = diffX + this.handle.x;
             newY = diffY + this.handle.y;
-            if (this.opts.bounds.minX) {
+            if (typeof this.opts.bounds.minX === 'number') {
                 newX = Math.max(newX, this.opts.bounds.minX);
             }
-            if (this.opts.bounds.maxX) {
+            if (typeof this.opts.bounds.maxX === 'number') {
                 newX = Math.min(newX, this.opts.bounds.maxX);
             }
-            if (this.opts.bounds.minY) {
+            if (typeof this.opts.bounds.minY === 'number') {
                 newY = Math.max(newY, this.opts.bounds.minY);
             }
-            if (this.opts.bounds.maxY) {
+            if (typeof this.opts.bounds.maxY === 'number') {
                 newY = Math.min(newY, this.opts.bounds.maxY);
             }
             return {
@@ -47,14 +47,13 @@
         },
         moveHandle = function (cursorPos) {
             var newPos = getNewPos.call(this, cursorPos);
-            if (!newPos) return;
-            if (typeof this.opts.drag === 'function') {
+            if (newPos && typeof this.opts.drag === 'function') {
                 this.opts.drag.call(this, newPos);
             }
         },
         stopDrag = function (cursorPos) {
             if (!this.dragging) return;
-            var newPos = getNewPos.call(this, cursorPos);
+            var newPos = getNewPos.call(this, cursorPos, true);
             this.handle.x = newPos.x;
             this.handle.y = newPos.y;
             if (typeof this.opts.stop === 'function') {

@@ -28,6 +28,10 @@ var test = test || {};
         drag: function (pos) {
             this.$el.scrollLeft(-pos.x);
             this.$el.scrollTop(-pos.y);
+        },
+        bounds: {
+            minX: -100,
+            minY: -100
         }
     });
 }(jQuery));
