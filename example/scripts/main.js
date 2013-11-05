@@ -43,3 +43,13 @@ var test = test || {};
         }
     });
 }(jQuery));
+
+// Drag
+(function ($) {
+    "use strict";
+    test.drag = new Dragger('.drag img', {
+        drag: function (pos) {
+            this.$el.css({ left: pos.x, top: pos.y });
+        }
+    });
+}(jQuery));

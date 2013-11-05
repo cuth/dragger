@@ -24,3 +24,14 @@
     width: 1280px;
     height: 960px;
 }
+
+.drag {
+    cursor: default;
+    position: relative;
+}
+.drag img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: move;
+}
