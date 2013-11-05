@@ -11,7 +11,9 @@
                 maxX: null,
                 minY: null,
                 maxY: null
-            }
+            },
+            allowVerticalScrolling: false,
+            allowHorizontalScrolling: false
         },
         getPageScroll = function () {
             return {
@@ -47,17 +49,16 @@
         },
         moveHandle = function (cursorPos) {
             var newPos = getNewPos.call(this, cursorPos);
+            this.handleMove = newPos;
             if (newPos && typeof this.opts.drag === 'function') {
                 this.opts.drag.call(this, newPos);
             }
         },
         stopDrag = function (cursorPos) {
             if (!this.dragging) return;
-            var newPos = getNewPos.call(this, cursorPos, true);
-            this.handle.x = newPos.x;
-            this.handle.y = newPos.y;
+            this.handle = this.handleMove;
             if (typeof this.opts.stop === 'function') {
-                this.opts.stop.call(this, newPos);
+                this.opts.stop.call(this, this.handle);
             }
             this.dragging = false;
         },
@@ -77,40 +78,33 @@
         },
         bindEvents = function () {
             var self = this;
-            this.$el.bind('mousedown', function (e) {
+            this.$el.on('mousedown', function (e) {
                 document.onselectstart = function () { return false };
                 self.dragging = true;
                 startDrag.call(self, { x: e.clientX, y: e.clientY });
             });
-            $(document).bind('mouseup', function (e) {
-                document.onselectstart = null;
-                if (!self.dragging) return;
-                //moveHandle.call(self, { x: e.clientX, y: e.clientY });
-                stopDrag.call(self, { x: e.clientX, y: e.clientY });
-            });
-            $(document).bind('mousemove', function (e) {
+            $(document).on('mousemove', function (e) {
                 if (!self.dragging) return;
                 moveHandle.call(self, { x: e.clientX, y: e.clientY });
             });
-            this.$el.bind('touchstart', function (e) {
+            $(document).on('mouseup', function (e) {
+                document.onselectstart = null;
+                if (!self.dragging) return;
+                stopDrag.call(self, { x: e.clientX, y: e.clientY });
+            });
+            this.$el.on('touchstart', function (e) {
                 self.dragging = false;
                 startDrag.call(self, { x: e.originalEvent.touches[0].clientX, y: e.originalEvent.touches[0].clientY });
             });
-            this.$el.bind('touchend', function (e) {
-                if (self.dragging && !self.flagScroll) {
-                    e.preventDefault();
-                    stopDrag.call(self, { x: e.originalEvent.touches[0].clientX, y: e.originalEvent.touches[0].clientY });
-                    return false;
-                }
-                self.flagScroll = false;
-            });
-            this.$el.bind('touchmove', function (e) {
+            this.$el.on('touchmove', function (e) {
                 if (!self.dragging) {
-                    if (self.flagScroll || getPageScroll().y !== self.dragStart.scrollY) {
+                    if (self.flagScroll) return true;
+                    var pageScroll = getPageScroll();
+                    if ((self.opts.allowVerticalScrolling && pageScroll.y !== self.dragStart.scrollY) || (self.opts.allowHorizontalScrolling && pageScroll.x !== self.dragStart.scrollX)) {
                         self.flagScroll = true;
                         return true;
                     }
-                    if (Math.abs(e.originalEvent.touches[0].clientX - self.dragStart.mouseX) > 10) {
+                    if ((!self.opts.allowVerticalScrolling && Math.abs(e.originalEvent.touches[0].clientY - self.dragStart.mouseY) > 10) || (!self.opts.allowHorizontalScrolling && Math.abs(e.originalEvent.touches[0].clientX - self.dragStart.mouseX) > 10)) {
                         self.dragging = true;
                     } else {
                         return true;
@@ -118,6 +112,14 @@
                 }
                 e.preventDefault();
                 moveHandle.call(self, { x: e.originalEvent.touches[0].clientX, y: e.originalEvent.touches[0].clientY });
+            });
+            this.$el.on('touchend', function (e) {
+                if (self.dragging && !self.flagScroll) {
+                    e.preventDefault();
+                    stopDrag.call(self);
+                    return false;
+                }
+                self.flagScroll = false;
             });
             if (this.$el.is('img')) {
                 this.$el.on('dragstart', function (e) {
@@ -134,6 +136,7 @@
             if (!this.$el.length) return false;
             this.opts = $.extend({}, defaults, options);
             this.handle = { x: this.opts.initX, y: this.opts.initY };
+            this.handleMove = { x: 0, y: 0 };
             this.dragStart = { mouseX: 0, mouseY: 0, diffX: 0, diffY: 0, scrollX: 0, scrollY: 0 };
             this.dragging = false;
             this.flagScroll = false;
