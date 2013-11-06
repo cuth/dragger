@@ -15,6 +15,12 @@
             allowVerticalScrolling: false,
             allowHorizontalScrolling: false
         },
+        setBounds = function (newBounds) {
+            $.extend(this.opts.bounds, newBounds);
+        },
+        setPosition = function (pos) {
+            $.extend(this.handle, pos);
+        },
         getPageScroll = function () {
             return {
                 x: (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft,
@@ -146,4 +152,6 @@
     namespace.Dragger = function (el, options) {
         this.result = init.call(this, el, options);
     };
+    namespace.Dragger.prototype.setBounds = setBounds;
+    namespace.Dragger.prototype.setPosition = setPosition;
 } (this, jQuery));
