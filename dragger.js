@@ -62,7 +62,9 @@
         },
         stopDrag = function (cursorPos) {
             if (!this.dragging) return;
-            this.handle = this.handleMove;
+            if (this.handleMove) {
+                this.handle = this.handleMove;
+            }
             if (typeof this.opts.stop === 'function') {
                 this.opts.stop.call(this, this.handle);
             }
