@@ -1,4 +1,6 @@
-(function (namespace, $) {
+// Dragger.js by Jon Cuthbert
+// https://github.com/cuth/dragger
+(function (exports, $) {
     "use strict";
     var defaults = {
             drag: null,
@@ -151,9 +153,9 @@
             bindEvents.call(this);
             return true;
         };
-    namespace.Dragger = function (el, options) {
+    exports.Dragger = function (el, options) {
         this.result = init.call(this, el, options);
     };
-    namespace.Dragger.prototype.setBounds = setBounds;
-    namespace.Dragger.prototype.setPosition = setPosition;
+    exports.Dragger.prototype.setBounds = setBounds;
+    exports.Dragger.prototype.setPosition = setPosition;
 } (this, jQuery));
