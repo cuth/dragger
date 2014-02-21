@@ -6,7 +6,9 @@ Dragger is a modules that gives you the ability to drag anything with either the
 Example
 -------
 ```javascript
-new Dragger(el, {
+// Use any element, jQuery object or selector as the first parameter
+// Use an object to overwrite the defaults for the second parameter
+new Dragger('#elementId', {
     'start': function (pos) {
         // drag has started
         // pos.x is the initial left position
@@ -35,5 +37,19 @@ new Dragger(el, {
         minY: null,
         maxY: null
     } // set the bounds object to prevent dragging past any of these values.
+});
+```
+
+If you are dragging anchor tags in IE you will need to prevent the 'dragstart' event as well as set a flag to stop any subsequent 'click' event.
+```javascript
+var preventClick = false;
+$('a', '#context').on('dragstart', function (e) {
+    e.preventDefault();
+    preventClick = true;
+}).on('click', function (e) {
+    if (preventClick) {
+        e.preventDefault();
+        preventClick = false;
+    }
 });
 ```
