@@ -158,4 +158,4 @@
     };
     exports.Dragger.prototype.setBounds = setBounds;
     exports.Dragger.prototype.setPosition = setPosition;
-} (this, jQuery));
+}(this, jQuery));
