@@ -53,3 +53,7 @@ $('a', '#context').on('dragstart', function (e) {
     }
 });
 ```
+
+jQuery
+------
+The only requirement is jQuery but it might be easy to write this script without this reqirement. JQuery is only used for binding events and extending objects.
