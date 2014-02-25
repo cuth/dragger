@@ -62,13 +62,12 @@
                 this.opts.drag.call(this, newPos);
             }
         },
-        stopDrag = function (cursorPos) {
-            if (!this.dragging) return;
-            if (this.handleMove) {
+        stopDrag = function (fail) {
+            if (this.dragging && this.handleMove) {
                 this.handle = this.handleMove;
             }
             if (typeof this.opts.stop === 'function') {
-                this.opts.stop.call(this, this.handle);
+                this.opts.stop.call(this, !fail && this.handle);
             }
             this.dragging = false;
         },
@@ -100,7 +99,7 @@
             $(document).on('mouseup', function (e) {
                 document.onselectstart = null;
                 if (!self.dragging) return;
-                stopDrag.call(self, { x: e.clientX, y: e.clientY });
+                stopDrag.call(self);
             });
             this.$el.on('touchstart', function (e) {
                 self.dragging = false;
@@ -129,6 +128,7 @@
                     stopDrag.call(self);
                     return false;
                 }
+                stopDrag.call(self, true);
                 self.flagScroll = false;
             });
             if (this.$el.is('img')) {
