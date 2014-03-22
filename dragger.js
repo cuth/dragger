@@ -1,6 +1,8 @@
-// Dragger.js by Jon Cuthbert
-// https://github.com/cuth/dragger
-(function (exports, $) {
+/* dragger
+ * version: 1.0
+ * https://github.com/cuth/dragger
+ */
+;(function (exports, $) {
     "use strict";
     var defaults = {
             drag: null,
