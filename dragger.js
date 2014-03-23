@@ -1,5 +1,5 @@
 /* dragger
- * version: 1.0
+ * version: 1.1
  * https://github.com/cuth/dragger
  */
 ;(function (exports, $) {
