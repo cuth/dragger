@@ -146,7 +146,7 @@
         init = function (el, options) {
             this.$el = $(el);
             if (!this.$el.length) return false;
-            this.opts = $.extend({}, defaults, options);
+            this.opts = $.extend(true, {}, defaults, options);
             this.handle = { x: this.opts.initX, y: this.opts.initY };
             this.handleMove = { x: 0, y: 0 };
             this.dragStart = { mouseX: 0, mouseY: 0, diffX: 0, diffY: 0, scrollX: 0, scrollY: 0 };
