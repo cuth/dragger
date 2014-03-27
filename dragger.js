@@ -1,5 +1,5 @@
 /* dragger
- * version: 1.1
+ * version: 1.0.2
  * https://github.com/cuth/dragger
  */
 ;(function (exports, $) {
@@ -24,6 +24,7 @@
         },
         setPosition = function (pos) {
             $.extend(this.handle, pos);
+            this.handleMove = this.handle;
         },
         getPageScroll = function () {
             return {
