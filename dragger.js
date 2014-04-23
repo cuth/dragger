@@ -1,9 +1,9 @@
 /* dragger
- * version: 1.0.2
+ * version: 1.0.3
  * https://github.com/cuth/dragger
  */
 ;(function (exports, $) {
-    "use strict";
+    'use strict';
     var defaults = {
             drag: null,
             start: null,
@@ -30,7 +30,7 @@
             return {
                 x: (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft,
                 y: (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop
-            }
+            };
         },
         getNewPos = function (cursorPos, force) {
             var diffX = cursorPos.x - this.dragStart.mouseX,
@@ -91,7 +91,7 @@
         bindEvents = function () {
             var self = this;
             this.$el.on('mousedown', function (e) {
-                document.onselectstart = function () { return false };
+                document.onselectstart = function () { return false; };
                 self.dragging = true;
                 startDrag.call(self, { x: e.clientX, y: e.clientY });
             });
@@ -99,7 +99,7 @@
                 if (!self.dragging) return;
                 moveHandle.call(self, { x: e.clientX, y: e.clientY });
             });
-            $(document).on('mouseup', function (e) {
+            $(document).on('mouseup', function () {
                 document.onselectstart = null;
                 if (!self.dragging) return;
                 stopDrag.call(self);
