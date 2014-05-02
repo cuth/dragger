@@ -48,15 +48,28 @@
         };
     };
 
-    var getNewPos = function (cursorPos, force) {
-        var diffX = cursorPos.x - this.dragStart.mouseX,
-            diffY = cursorPos.y - this.dragStart.mouseY,
-            newX, newY;
-        if (!force && (diffX === this.dragStart.diffX && diffY === this.dragStart.diffY)) return false;
+    var getNewPos = function (cursorPos) {
+        var diffX, diffY, newX, newY;
+
+        // measure the difference from when the drag started till now
+        diffX = cursorPos.x - this.dragStart.x;
+        diffY = cursorPos.y - this.dragStart.y;
+
+        // check to see if there has been any change since it was called last
+        if (diffX === this.dragStart.diffX &&
+            diffY === this.dragStart.diffY) {
+            return false;
+        }
+
+        // store the difference variables to check if position has changed
         this.dragStart.diffX = diffX;
         this.dragStart.diffY = diffY;
+
+        // set the new handle position
         newX = diffX + this.handle.x;
         newY = diffY + this.handle.y;
+
+        // keep the new position inside the bounds
         if (typeof this.bounds.minX === 'number') {
             newX = Math.max(newX, this.bounds.minX);
         }
@@ -69,6 +82,7 @@
         if (typeof this.bounds.maxY === 'number') {
             newY = Math.min(newY, this.bounds.maxY);
         }
+
         return {
             x: newX,
             y: newY
@@ -84,20 +98,20 @@
     };
 
     var stopDrag = function (fail) {
-        if (this.dragging && this.handleMove) {
+        if (this.isDragging && this.handleMove) {
             this.handle = this.handleMove;
         }
         if (typeof this.opts.stop === 'function') {
             this.opts.stop.call(this, !fail && this.handle);
         }
-        this.dragging = false;
+        this.isDragging = false;
     };
 
     var startDrag = function (cursorPos) {
         var pageScroll = getPageScroll();
         this.dragStart = {
-            mouseX: cursorPos.x,
-            mouseY: cursorPos.y,
+            x: cursorPos.x,
+            y: cursorPos.y,
             diffX: 0,
             diffY: 0,
             scrollX: pageScroll.x,
@@ -108,63 +122,97 @@
         }
     };
 
-    var bindEvents = function () {
-        var self = this;
-        console.log(this.el);
-        console.log(this.el.addEventListener);
-        this.el.addEventListener('mousedown', function (e) {
-            document.onselectstart = function () { return false; };
-            self.dragging = true;
-            startDrag.call(self, { x: e.clientX, y: e.clientY });
-        });
-        document.addEventListener('mousemove', function (e) {
-            if (!self.dragging) return;
-            moveHandle.call(self, { x: e.clientX, y: e.clientY });
-        });
-        document.addEventListener('mouseup', function () {
-            document.onselectstart = null;
-            if (!self.dragging) return;
-            stopDrag.call(self);
-        });
-        this.el.addEventListener('touchstart', function (e) {
-            self.dragging = false;
-            startDrag.call(self, { x: e.touches[0].clientX, y: e.touches[0].clientY });
-        });
-        this.el.addEventListener('touchmove', function (e) {
-            if (!self.dragging) {
-                if (self.flagScroll) return true;
-                var pageScroll = getPageScroll();
-                if ((self.opts.allowVerticalScrolling && pageScroll.y !== self.dragStart.scrollY) || (self.opts.allowHorizontalScrolling && pageScroll.x !== self.dragStart.scrollX)) {
-                    self.flagScroll = true;
-                    return true;
-                }
-                if ((!self.opts.allowVerticalScrolling && Math.abs(e.touches[0].clientY - self.dragStart.mouseY) > 10) || (!self.opts.allowHorizontalScrolling && Math.abs(e.touches[0].clientX - self.dragStart.mouseX) > 10)) {
-                    self.dragging = true;
-                } else {
-                    return true;
-                }
-            }
-            e.preventDefault();
-            moveHandle.call(self, { x: e.touches[0].clientX, y: e.touches[0].clientY });
-        });
-        this.el.addEventListener('touchend', function (e) {
-            if (self.dragging && !self.flagScroll) {
-                e.preventDefault();
-                stopDrag.call(self);
-                return false;
-            }
-            stopDrag.call(self, true);
-            self.flagScroll = false;
-        });
-        if (this.el.tagName === 'IMG') {
-            this.el.addEventListener('dragstart', function (e) {
-                e.preventDefault();
-            });
-        } else {
-            this.el.querySelector('img').addEventListener('dragstart', function (e) {
-                e.preventDefault();
-            });
+    var eventMouseDown = function (e) {
+        document.onselectstart = function () { return false; };
+        this.isDragging = true;
+        startDrag.call(this, { x: e.clientX, y: e.clientY });
+    };
+
+    var eventMouseMove = function (e) {
+        if (!this.isDragging) return;
+        moveHandle.call(this, { x: e.clientX, y: e.clientY });
+    };
+
+    var eventMouseUp = function (e) {
+        document.onselectstart = null;
+        if (!this.isDragging) return;
+        stopDrag.call(this);
+    };
+
+    var eventTouchStart = function (e) {
+        // Allow touch to scroll the page before setting isDragging to true
+        this.isDragging = false;
+        startDrag.call(this, { x: e.touches[0].clientX, y: e.touches[0].clientY });
+    };
+
+    var didPageScroll = function () {
+        var pageScroll = getPageScroll();
+        if (this.opts.allowVerticalScrolling && pageScroll.y !== this.dragStart.scrollY) {
+            return true;
         }
+        if (this.opts.allowHorizontalScrolling && pageScroll.x !== this.dragStart.scrollX) {
+            return true;
+        }
+        return false;
+    };
+
+    var didDragEnough = function (pos) {
+        if (!this.opts.allowVerticalScrolling && Math.abs(pos.y - this.dragStart.y) > 10) {
+            return true;
+        }
+        if (!this.opts.allowHorizontalScrolling && Math.abs(pos.x - this.dragStart.x) > 10) {
+            return true;
+        }
+        return false;
+    };
+
+    var eventTouchMove = function (e) {
+        if (this.isScrolling) return true;
+        var pos = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+        if (!this.isDragging) {
+
+            // check to see if the page has scrolled since touch has started
+            if (didPageScroll.call(this)) {
+                this.isScrolling = true;
+                return true;
+            }
+            if (didDragEnough.call(this, pos)) {
+                this.isDragging = true;
+            } else {
+                return true;
+            }
+        }
+        e.preventDefault();
+        moveHandle.call(this, pos);
+    };
+
+    var eventTouchEnd = function (e) {
+        if (this.isDragging && !this.isScrolling) {
+            e.preventDefault();
+            stopDrag.call(this);
+            return false;
+        }
+        stopDrag.call(this, true);
+        this.isScrolling = false;
+    };
+
+    var preventDragStart = function (e) {
+        //if (e.target.tagName === 'IMG' || e.target.tagName === 'A') {
+            e.preventDefault();
+        //}
+    };
+
+    var bindEvents = function () {
+        this.el.addEventListener('mousedown', eventMouseDown.bind(this));
+        document.addEventListener('mousemove', eventMouseMove.bind(this));
+        document.addEventListener('mouseup', eventMouseUp.bind(this));
+        this.el.addEventListener('touchstart', eventTouchStart.bind(this));
+        this.el.addEventListener('touchmove', eventTouchMove.bind(this));
+        this.el.addEventListener('touchend', eventTouchEnd.bind(this));
+        this.el.addEventListener('dragstart', preventDragStart.bind(this));
     };
 
     var init = function (el, options) {
@@ -172,11 +220,19 @@
         if (typeof this.el !== 'object') return false;
         this.opts = extend({}, defaults, options);
         this.bounds = extend({}, defaultBounds);
+
+        // initial position of the element that will be dragged
         this.handle = { x: this.opts.initX, y: this.opts.initY };
+
+        // position of the element while it is moving
         this.handleMove = { x: 0, y: 0 };
-        this.dragStart = { mouseX: 0, mouseY: 0, diffX: 0, diffY: 0, scrollX: 0, scrollY: 0 };
-        this.dragging = false;
-        this.flagScroll = false;
+
+        // set this object at the beginning of the drag
+        this.dragStart = { x: 0, y: 0, diffX: 0, diffY: 0, scrollX: 0, scrollY: 0 };
+
+        this.isDragging = false;
+        this.isScrolling = false;
+
         bindEvents.call(this);
         return true;
     };
