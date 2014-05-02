@@ -89,6 +89,21 @@
         };
     };
 
+    var startDrag = function (cursorPos) {
+        var pageScroll = getPageScroll();
+        this.dragStart = {
+            x: cursorPos.x,
+            y: cursorPos.y,
+            diffX: 0,
+            diffY: 0,
+            scrollX: pageScroll.x,
+            scrollY: pageScroll.y
+        };
+        if (typeof this.opts.start === 'function') {
+            this.opts.start.call(this, this.handle);
+        }
+    };
+
     var moveHandle = function (cursorPos) {
         var newPos = getNewPos.call(this, cursorPos);
         this.handleMove = newPos;
@@ -105,21 +120,6 @@
             this.opts.stop.call(this, !fail && this.handle);
         }
         this.isDragging = false;
-    };
-
-    var startDrag = function (cursorPos) {
-        var pageScroll = getPageScroll();
-        this.dragStart = {
-            x: cursorPos.x,
-            y: cursorPos.y,
-            diffX: 0,
-            diffY: 0,
-            scrollX: pageScroll.x,
-            scrollY: pageScroll.y
-        };
-        if (typeof this.opts.start === 'function') {
-            this.opts.start.call(this, this.handle);
-        }
     };
 
     var eventMouseDown = function (e) {
