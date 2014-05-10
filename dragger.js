@@ -123,7 +123,7 @@
     };
 
     var eventMouseDown = function (e) {
-        document.onselectstart = function () { return false; };
+        //document.onselectstart = function () { return false; };
         this.isDragging = true;
         startDrag.call(this, { x: e.clientX, y: e.clientY });
     };
@@ -134,7 +134,7 @@
     };
 
     var eventMouseUp = function (e) {
-        document.onselectstart = null;
+        //document.onselectstart = null;
         if (!this.isDragging) return;
         stopDrag.call(this);
     };
