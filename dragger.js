@@ -38,7 +38,10 @@
 
     var setPosition = function (pos) {
         extend(this.handle, pos);
-        this.handleMove = this.handle;
+    };
+
+    var hasDragged = function () {
+        return (this.dragStart.diffX !== 0 || this.dragStart.diffY !== 0);
     };
 
     var getPageScroll = function () {
@@ -48,7 +51,7 @@
         };
     };
 
-    var getNewPos = function (cursorPos) {
+    var getNewPos = function (cursorPos, checkDiff) {
         var diffX, diffY, newX, newY;
 
         // measure the difference from when the drag started till now
@@ -56,7 +59,7 @@
         diffY = cursorPos.y - this.dragStart.y;
 
         // check to see if there has been any change since it was called last
-        if (diffX === this.dragStart.diffX &&
+        if (checkDiff && diffX === this.dragStart.diffX &&
             diffY === this.dragStart.diffY) {
             return false;
         }
@@ -105,19 +108,17 @@
     };
 
     var moveHandle = function (cursorPos) {
-        var newPos = getNewPos.call(this, cursorPos);
-        this.handleMove = newPos;
+        var newPos = getNewPos.call(this, cursorPos, true);
         if (newPos && typeof this.opts.drag === 'function') {
             this.opts.drag.call(this, newPos);
         }
     };
 
-    var stopDrag = function (fail) {
-        if (this.isDragging && this.handleMove) {
-            this.handle = this.handleMove;
-        }
+    var stopDrag = function (cursorPos) {
+        this.handle = getNewPos.call(this, cursorPos, false);
+        var dragSuccess = (hasDragged.call(this) && !this.isScrolling);
         if (typeof this.opts.stop === 'function') {
-            this.opts.stop.call(this, !fail && this.handle);
+            this.opts.stop.call(this, this.handle, dragSuccess);
         }
         this.isDragging = false;
     };
@@ -136,7 +137,7 @@
     var eventMouseUp = function (e) {
         document.onselectstart = null;
         if (!this.isDragging) return;
-        stopDrag.call(this);
+        stopDrag.call(this, { x: e.clientX, y: e.clientY });
     };
 
     var eventTouchStart = function (e) {
@@ -190,12 +191,11 @@
     };
 
     var eventTouchEnd = function (e) {
-        if (this.isDragging && !this.isScrolling) {
-            e.preventDefault();
-            stopDrag.call(this);
-            return false;
-        }
-        stopDrag.call(this, true);
+        var pos = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+        stopDrag.call(this, pos);
         this.isScrolling = false;
     };
 
@@ -204,7 +204,7 @@
     };
 
     var preventClickWhenDrag = function (e) {
-        if (this.dragStart.diffX !== 0 || this.dragStart.diffY !== 0) {
+        if (hasDragged.call(this)) {
             e.preventDefault();
         }
     };
@@ -228,9 +228,6 @@
 
         // initial position of the element that will be dragged
         this.handle = { x: this.opts.initX, y: this.opts.initY };
-
-        // position of the element while it is moving
-        this.handleMove = { x: 0, y: 0 };
 
         // set this object at the beginning of the drag
         this.dragStart = { x: 0, y: 0, diffX: 0, diffY: 0, scrollX: 0, scrollY: 0 };

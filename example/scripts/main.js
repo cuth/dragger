@@ -8,6 +8,9 @@ var test = test || {};
         drag: function (pos) {
             $(this.el).find('img').css({ transform: 'translate('+pos.x+'px,'+pos.y+'px)' });
         },
+        stop: function () {
+            console.log(arguments);
+        },
         allowVerticalScrolling: true
     });
 }(jQuery));
@@ -18,6 +21,9 @@ var test = test || {};
     test.position = new Dragger('.position', {
         drag: function (pos) {
             $(this.el).find('img').css({ left: pos.x, top: pos.y });
+        },
+        stop: function () {
+            console.log(arguments);
         },
         allowHorizontalScrolling: true
     });
@@ -34,6 +40,9 @@ var test = test || {};
         drag: function (pos) {
             $scroll.scrollLeft(-pos.x);
             $scroll.scrollTop(-pos.y);
+        },
+        stop: function () {
+            console.log(arguments);
         }
     });
 
@@ -60,6 +69,9 @@ var test = test || {};
     test.drag = new Dragger('.drag img', {
         drag: function (pos) {
             $(this.el).css({ left: pos.x, top: pos.y });
+        },
+        stop: function () {
+            console.log(arguments);
         }
     });
 }(jQuery));
@@ -72,6 +84,9 @@ var test = test || {};
     test.text = new Dragger('.text', {
         drag: function (pos) {
             $(this.el).find('.wrap').css({ left: pos.x, top: pos.y });
+        },
+        stop: function () {
+            console.log(arguments);
         }
     });
 }(jQuery));
