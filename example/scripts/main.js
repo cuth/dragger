@@ -32,15 +32,25 @@ var test = test || {};
         ySpace = $img.height() - $scroll.height();
     test.scroll = new Dragger($scroll[0], {
         drag: function (pos) {
-            $(this.el).scrollLeft(-pos.x);
-            $(this.el).scrollTop(-pos.y);
+            $scroll.scrollLeft(-pos.x);
+            $scroll.scrollTop(-pos.y);
         }
     });
+
+    // Set the dragger bounds when adjusting scroll
     test.scroll.setBounds({
         maxX: 0,
         maxY: 0,
         minX: -xSpace,
         minY: -ySpace
+    });
+
+    // Internet Explorer saves the scroll position and restores it after window load.
+    $(window).load(function () {
+        test.scroll.setPosition({
+            x: -$scroll.scrollLeft(),
+            y: -$scroll.scrollTop()
+        });
     });
 }(jQuery));
 
@@ -50,6 +60,18 @@ var test = test || {};
     test.drag = new Dragger('.drag img', {
         drag: function (pos) {
             $(this.el).css({ left: pos.x, top: pos.y });
+        }
+    });
+}(jQuery));
+
+// Text and Links
+(function ($) {
+    "use strict";
+    var positionStart;
+
+    test.text = new Dragger('.text', {
+        drag: function (pos) {
+            $(this.el).find('.wrap').css({ left: pos.x, top: pos.y });
         }
     });
 }(jQuery));

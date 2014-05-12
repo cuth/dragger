@@ -123,7 +123,7 @@
     };
 
     var eventMouseDown = function (e) {
-        //document.onselectstart = function () { return false; };
+        document.onselectstart = function () { return false; };
         this.isDragging = true;
         startDrag.call(this, { x: e.clientX, y: e.clientY });
     };
@@ -134,7 +134,7 @@
     };
 
     var eventMouseUp = function (e) {
-        //document.onselectstart = null;
+        document.onselectstart = null;
         if (!this.isDragging) return;
         stopDrag.call(this);
     };
@@ -200,9 +200,13 @@
     };
 
     var preventDragStart = function (e) {
-        //if (e.target.tagName === 'IMG' || e.target.tagName === 'A') {
+        e.preventDefault();
+    };
+
+    var preventClickWhenDrag = function (e) {
+        if (this.dragStart.diffX !== 0 || this.dragStart.diffY !== 0) {
             e.preventDefault();
-        //}
+        }
     };
 
     var bindEvents = function () {
@@ -213,6 +217,7 @@
         this.el.addEventListener('touchmove', eventTouchMove.bind(this));
         this.el.addEventListener('touchend', eventTouchEnd.bind(this));
         this.el.addEventListener('dragstart', preventDragStart.bind(this));
+        this.el.addEventListener('click', preventClickWhenDrag.bind(this));
     };
 
     var init = function (el, options) {
