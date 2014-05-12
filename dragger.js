@@ -192,8 +192,8 @@
 
     var eventTouchEnd = function (e) {
         var pos = {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
+            x: (this.isScrolling) ? this.dragStart.x : e.changedTouches[0].clientX,
+            y: (this.isScrolling) ? this.dragStart.y : e.changedTouches[0].clientY
         };
         stopDrag.call(this, pos);
         this.isScrolling = false;
