@@ -1,9 +1,10 @@
-//$('img').on('dragstart', function(event) { event.preventDefault(); });
+/*global Dragger, console*/
+
 var test = test || {};
 
 // Transform
 (function ($) {
-    "use strict";
+    'use strict';
     test.transform = new Dragger('.transform', {
         drag: function (pos) {
             $(this.el).find('img').css({ transform: 'translate('+pos.x+'px,'+pos.y+'px)' });
@@ -17,7 +18,7 @@ var test = test || {};
 
 // Position
 (function ($) {
-    "use strict";
+    'use strict';
     test.position = new Dragger('.position', {
         drag: function (pos) {
             $(this.el).find('img').css({ left: pos.x, top: pos.y });
@@ -31,7 +32,7 @@ var test = test || {};
 
 // Scroll
 (function ($) {
-    "use strict";
+    'use strict';
     var $scroll = $('.scroll'),
         $img = $scroll.find('img'),
         xSpace = $img.width() - $scroll.width(),
@@ -65,7 +66,7 @@ var test = test || {};
 
 // Drag
 (function ($) {
-    "use strict";
+    'use strict';
     test.drag = new Dragger('.drag img', {
         drag: function (pos) {
             $(this.el).css({ left: pos.x, top: pos.y });
@@ -78,8 +79,7 @@ var test = test || {};
 
 // Text and Links
 (function ($) {
-    "use strict";
-    var positionStart;
+    'use strict';
 
     test.text = new Dragger('.text', {
         drag: function (pos) {
