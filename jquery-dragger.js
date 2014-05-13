@@ -1,4 +1,4 @@
-/* dragger
+/* jquery-dragger
  * version: 1.1.0
  * https://github.com/cuth/dragger
  */
@@ -22,22 +22,12 @@
         maxY: null
     };
 
-    var extend = function (obj) {
-        if (typeof obj !== 'object') return obj;
-        Array.prototype.slice.call(arguments, 1).forEach(function (source) {
-            for (var prop in source) {
-                obj[prop] = source[prop];
-            }
-        });
-        return obj;
-    };
-
     var setBounds = function (newBounds) {
-        extend(this.bounds, newBounds);
+        $.extend(this.bounds, newBounds);
     };
 
     var setPosition = function (pos) {
-        extend(this.handle, pos);
+        $.extend(this.handle, pos);
     };
 
     var hasDragged = function () {
@@ -210,21 +200,23 @@
     };
 
     var bindEvents = function () {
-        this.el.addEventListener('mousedown', eventMouseDown.bind(this));
-        document.addEventListener('mousemove', eventMouseMove.bind(this));
-        document.addEventListener('mouseup', eventMouseUp.bind(this));
-        this.el.addEventListener('touchstart', eventTouchStart.bind(this));
-        this.el.addEventListener('touchmove', eventTouchMove.bind(this));
-        this.el.addEventListener('touchend', eventTouchEnd.bind(this));
-        this.el.addEventListener('dragstart', preventDragStart.bind(this));
-        this.el.addEventListener('click', preventClickWhenDrag.bind(this));
+        this.$el.on('mousedown', eventMouseDown.bind(this));
+        $(document)
+            .on('mousemove', eventMouseMove.bind(this))
+            .on('mouseup', eventMouseUp.bind(this));
+        this.$el.on('touchstart', eventTouchStart.bind(this));
+        this.$el.on('touchmove', eventTouchMove.bind(this));
+        this.$el.on('touchend', eventTouchEnd.bind(this));
+        this.$el.on('dragstart', preventDragStart.bind(this));
+        this.$el.on('click', preventClickWhenDrag.bind(this));
     };
 
     var init = function (el, options) {
-        this.el = (typeof el === 'string') ? document.querySelector(el) : el;
-        if (typeof this.el !== 'object') return false;
-        this.opts = extend({}, defaults, options);
-        this.bounds = extend({}, defaultBounds);
+        this.$el = $(el);
+        if (!this.$el.length) return false;
+        this.el = this.$el[0];
+        this.opts = $.extend({}, defaults, options);
+        this.bounds = $.extend({}, defaultBounds);
 
         // initial position of the element that will be dragged
         this.handle = { x: this.opts.initX, y: this.opts.initY };
