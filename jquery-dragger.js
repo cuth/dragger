@@ -1,5 +1,5 @@
 /* jquery-dragger
- * version: 1.1.0
+ * version: 1.1.1
  * https://github.com/cuth/dragger
  */
 ;(function (exports) {
@@ -133,7 +133,7 @@
     var eventTouchStart = function (e) {
         // Allow touch to scroll the page before setting isDragging to true
         this.isDragging = false;
-        startDrag.call(this, { x: e.touches[0].clientX, y: e.touches[0].clientY });
+        startDrag.call(this, { x: e.originalEvent.touches[0].clientX, y: e.originalEvent.touches[0].clientY });
     };
 
     var didPageScroll = function () {
@@ -160,8 +160,8 @@
     var eventTouchMove = function (e) {
         if (this.isScrolling) return true;
         var pos = {
-            x: e.touches[0].clientX,
-            y: e.touches[0].clientY
+            x: e.originalEvent.touches[0].clientX,
+            y: e.originalEvent.touches[0].clientY
         };
         if (!this.isDragging) {
 
@@ -182,8 +182,8 @@
 
     var eventTouchEnd = function (e) {
         var pos = {
-            x: (this.isScrolling) ? this.dragStart.x : e.changedTouches[0].clientX,
-            y: (this.isScrolling) ? this.dragStart.y : e.changedTouches[0].clientY
+            x: (this.isScrolling) ? this.dragStart.x : e.originalEvent.changedTouches[0].clientX,
+            y: (this.isScrolling) ? this.dragStart.y : e.originalEvent.changedTouches[0].clientY
         };
         stopDrag.call(this, pos);
         this.isScrolling = false;
