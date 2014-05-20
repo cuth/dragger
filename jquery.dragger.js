@@ -1,8 +1,24 @@
-/* jquery-dragger
- * version: 1.1.1
- * https://github.com/cuth/dragger
- */
-;(function (exports) {
+//     jquery.dragger
+//     version: 1.1.1
+//     https://github.com/cuth/dragger
+
+(function(name, root, factory) {
+    'use strict';
+
+    if (typeof define === 'function' && define.amd) {
+        // AMD and attach globally
+        define(['jquery'], function ($) {
+            return (root[name] = factory($));
+        });
+    } else if (typeof exports !== 'undefined') {
+        // Node
+        module.exports = factory(require('jquery'));
+    } else {
+        // Browser global
+        root[name] = factory(root.jQuery || root.Zepto || root.ender || root.$);
+    }
+
+}('Dragger', this, function ($) {
     'use strict';
 
     var defaults = {
@@ -237,5 +253,9 @@
     Dragger.prototype.setBounds = setBounds;
     Dragger.prototype.setPosition = setPosition;
 
-    exports.Dragger = Dragger;
-}(this));
+    $.fn.Dragger = function (options) {
+        return new Dragger(this, options);
+    };
+
+    return Dragger;
+}));

@@ -1,8 +1,24 @@
-/* dragger
- * version: 1.1.0
- * https://github.com/cuth/dragger
- */
-;(function (exports) {
+//     dragger
+//     version: 1.1.0
+//     https://github.com/cuth/dragger
+
+(function (name, root, factory) {
+    'use strict';
+
+    if (typeof define === 'function' && define.amd) {
+        // AMD and attach globally
+        define(function () {
+            return (root[name] = factory());
+        });
+    } else if (typeof exports === 'object') {
+        // Node
+        module.exports = factory();
+    } else {
+        // Browser globals
+        root[name] = factory();
+    }
+
+}('Dragger', this, function () {
     'use strict';
 
     var defaults = {
@@ -245,5 +261,5 @@
     Dragger.prototype.setBounds = setBounds;
     Dragger.prototype.setPosition = setPosition;
 
-    exports.Dragger = Dragger;
-}(this));
+    return Dragger;
+}));
