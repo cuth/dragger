@@ -1,8 +1,8 @@
 /* jquery-dragger
- * version: 1.1.1
+ * version: 1.2.0
  * https://github.com/cuth/dragger
  */
-;(function (exports) {
+;(function (exports, $) {
     'use strict';
 
     var defaults = {
@@ -236,6 +236,7 @@
     };
     Dragger.prototype.setBounds = setBounds;
     Dragger.prototype.setPosition = setPosition;
+    Dragger.prototype.hasDragged = hasDragged;
 
     exports.Dragger = Dragger;
-}(this));
+}(this, jQuery));
