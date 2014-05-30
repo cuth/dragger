@@ -14,6 +14,7 @@
     "quotmark": "single",
     "undef": true,
     "unused": true,
-    "strict": true,
-    "trailing": true
+    "strict": false,
+    "trailing": true,
+    "predef": ["require", "define", "module", "exports"]
 }
