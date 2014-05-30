@@ -1,5 +1,5 @@
 /*  jquery.dragger
- *  version: 1.3.0
+ *  version: 1.2.1
  *  https://github.com/cuth/dragger
  *  @preserve
  */
@@ -7,8 +7,8 @@ define(['jquery'], function ($) {
     'use strict';
 
 var defaults = {
-    drag: null,
     start: null,
+    drag: null,
     stop: null,
     initX: 0,
     initY: 0,
