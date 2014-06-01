@@ -1,4 +1,4 @@
-/*  dragger
+/*  Dragger
  *  version: 1.2.1
  *  https://github.com/cuth/dragger
  *  @preserve

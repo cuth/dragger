@@ -21,8 +21,8 @@
   "homepage": "https://github.com/cuth/dragger",
   "devDependencies": {
     "gulp": "^3.6.2",
-    "gulp-concat": "^2.2.0",
     "gulp-uglify": "^0.3.0",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "gulp-insert": "^0.3.0"
   }
 }
