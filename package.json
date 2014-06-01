@@ -1,8 +1,8 @@
 {
-  "name": "Dragger",
+  "name": "dragger",
   "version": "1.2.1",
   "description": "Make any element draggable for touch or mouse",
-  "main": "dist/Dragger.common.js",
+  "main": "dist/dragger.common.js",
   "scripts": {
     "test": "test/index.html"
   },

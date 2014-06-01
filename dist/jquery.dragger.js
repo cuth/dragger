@@ -1,9 +1,12 @@
-/*  Dragger
+/*  dragger
  *  version: 1.2.1
  *  https://github.com/cuth/dragger
  *  @preserve
  */
-module.exports = (function ($) {
+
+/*exported Dragger */
+
+var Dragger = (function ($) {
     'use strict';
 
 var defaults = {
@@ -244,4 +247,4 @@ $.fn.Dragger = function (options) {
 
 return Dragger;
 
-}(require('jquery')));
+}(jQuery || Zepto || ender || $));

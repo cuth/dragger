@@ -32,30 +32,30 @@ var UGLIFY_OPTIONS = {
 };
 
 gulp.task('build-amd', function () {
-    gulp.src('src/Dragger.js')
-        .pipe(rename('Dragger.amd.js'))
+    gulp.src('src/dragger.js')
+        .pipe(rename('dragger.amd.js'))
         .pipe(insert.wrap(BANNER + AMD_HEAD, AMD_FOOT))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('Dragger.amd.min.js'))
+        .pipe(rename('dragger.amd.min.js'))
         .pipe(uglify(UGLIFY_OPTIONS))
         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build-commonjs', function () {
-    gulp.src('src/Dragger.js')
-        .pipe(rename('Dragger.common.js'))
+    gulp.src('src/dragger.js')
+        .pipe(rename('dragger.common.js'))
         .pipe(insert.wrap(BANNER + COMMON_HEAD, COMMON_FOOT))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('Dragger.common.min.js'))
+        .pipe(rename('dragger.common.min.js'))
         .pipe(uglify(UGLIFY_OPTIONS))
         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build-global', function () {
-    gulp.src('src/Dragger.js')
+    gulp.src('src/dragger.js')
         .pipe(insert.wrap(BANNER + JSHINT_EXPORTED + GLOBAL_HEAD, GLOBAL_FOOT))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('Dragger.min.js'))
+        .pipe(rename('dragger.min.js'))
         .pipe(uglify(UGLIFY_OPTIONS))
         .pipe(gulp.dest('dist'));
 });
@@ -63,30 +63,30 @@ gulp.task('build-global', function () {
 gulp.task('build', ['build-amd', 'build-commonjs', 'build-global']);
 
 gulp.task('build-amd-jquery', function () {
-    gulp.src('src/jquery.Dragger.js')
-        .pipe(rename('jquery.Dragger.amd.js'))
+    gulp.src('src/jquery.dragger.js')
+        .pipe(rename('jquery.dragger.amd.js'))
         .pipe(insert.wrap(BANNER + AMD_$_HEAD, AMD_$_FOOT))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('jquery.Dragger.amd.min.js'))
+        .pipe(rename('jquery.dragger.amd.min.js'))
         .pipe(uglify(UGLIFY_OPTIONS))
         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build-commonjs-jquery', function () {
-    gulp.src('src/jquery.Dragger.js')
-        .pipe(rename('jquery.Dragger.common.js'))
+    gulp.src('src/jquery.dragger.js')
+        .pipe(rename('jquery.dragger.common.js'))
         .pipe(insert.wrap(BANNER + COMMON_$_HEAD, COMMON_$_FOOT))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('jquery.Dragger.common.min.js'))
+        .pipe(rename('jquery.dragger.common.min.js'))
         .pipe(uglify(UGLIFY_OPTIONS))
         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build-global-jquery', function () {
-    gulp.src('src/jquery.Dragger.js')
+    gulp.src('src/jquery.dragger.js')
         .pipe(insert.wrap(BANNER + JSHINT_EXPORTED + GLOBAL_$_HEAD, GLOBAL_$_FOOT))
         .pipe(gulp.dest('dist'))
-        .pipe(rename('jquery.Dragger.min.js'))
+        .pipe(rename('jquery.dragger.min.js'))
         .pipe(uglify(UGLIFY_OPTIONS))
         .pipe(gulp.dest('dist'));
 });

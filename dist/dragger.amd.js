@@ -1,12 +1,9 @@
-/*  Dragger
+/*  dragger
  *  version: 1.2.1
  *  https://github.com/cuth/dragger
  *  @preserve
  */
-
-/*exported Dragger */
-
-var Dragger = (function () {
+define(function () {
     'use strict';
 
 var defaults = {
@@ -252,4 +249,4 @@ Dragger.prototype.hasDragged = hasDragged;
 
 return Dragger;
 
-}());
+});
