@@ -16,9 +16,9 @@ var AMD_FOOT      = "\n\nreturn Dragger;\n\n});";
 var AMD_$_HEAD    = "define(['jquery'], function ($) {\n\n'use strict';\n\n";
 var AMD_$_FOOT    = AMD_FOOT;
 
-var COMMON_HEAD   = "";
+var COMMON_HEAD   = "'use strict';\n\n";
 var COMMON_FOOT   = "\n\nmodule.exports = Dragger;";
-var COMMON_$_HEAD = "var $ = require('jquery');\n\n";
+var COMMON_$_HEAD = "'use strict';\n\nvar $ = require('jquery');\n\n";
 var COMMON_$_FOOT = COMMON_FOOT;
 
 var GLOBAL_HEAD   = "var Dragger = (function () {\n\n'use strict';\n\n";
