@@ -3,8 +3,8 @@
  *  https://github.com/cuth/dragger
  *  @preserve
  */
-module.exports = (function ($) {
-    'use strict';
+
+var $ = require('jquery');
 
 var defaults = {
     start: null,
@@ -242,6 +242,4 @@ $.fn.Dragger = function (options) {
     return new Dragger(this, options);
 };
 
-return Dragger;
-
-}(require('jquery')));
+module.exports = Dragger;

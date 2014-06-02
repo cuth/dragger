@@ -8,23 +8,23 @@ var BANNER = "\
  *  version: " + pjson.version + "\n\
  *  " + pjson.homepage + "\n\
  *  @preserve\n\
- */\n";
- var JSHINT_EXPORTED = "\n/*exported Dragger */\n\n";
+ */\n\n";
+ var JSHINT_EXPORTED = "/*exported Dragger */\n\n";
 
-var AMD_HEAD      = "define(function () {\n    'use strict';\n\n";
-var AMD_FOOT      = "\n\n});";
-var AMD_$_HEAD    = "define(['jquery'], function ($) {\n    'use strict';\n\n";
+var AMD_HEAD      = "define(function () {\n\n'use strict';\n\n";
+var AMD_FOOT      = "\n\nreturn Dragger;\n\n});";
+var AMD_$_HEAD    = "define(['jquery'], function ($) {\n\n'use strict';\n\n";
 var AMD_$_FOOT    = AMD_FOOT;
 
-var COMMON_HEAD   = "module.exports = (function () {\n    'use strict';\n\n";
-var COMMON_FOOT   = "\n\n}());";
-var COMMON_$_HEAD = "module.exports = (function ($) {\n    'use strict';\n\n";
-var COMMON_$_FOOT = "\n\n}(require('jquery')));";
+var COMMON_HEAD   = "";
+var COMMON_FOOT   = "\n\nmodule.exports = Dragger;";
+var COMMON_$_HEAD = "var $ = require('jquery');\n\n";
+var COMMON_$_FOOT = COMMON_FOOT;
 
-var GLOBAL_HEAD   = "var Dragger = (function () {\n    'use strict';\n\n";
-var GLOBAL_FOOT   = COMMON_FOOT;
-var GLOBAL_$_HEAD = "var Dragger = (function ($) {\n    'use strict';\n\n";
-var GLOBAL_$_FOOT = "\n\n}(jQuery || Zepto || ender || $));";
+var GLOBAL_HEAD   = "var Dragger = (function () {\n\n'use strict';\n\n";
+var GLOBAL_FOOT   = "\n\nreturn Dragger;\n\n}())";
+var GLOBAL_$_HEAD = "var Dragger = (function ($) {\n\n'use strict';\n\n";
+var GLOBAL_$_FOOT = "\n\nreturn Dragger;\n\n}(jQuery || Zepto || ender || $));";
 
 
 gulp.task('build-amd', function () {

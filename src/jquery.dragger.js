@@ -233,5 +233,3 @@ Dragger.prototype.setPosition = setPosition;
 $.fn.Dragger = function (options) {
     return new Dragger(this, options);
 };
-
-return Dragger;

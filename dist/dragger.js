@@ -7,7 +7,8 @@
 /*exported Dragger */
 
 var Dragger = (function () {
-    'use strict';
+
+'use strict';
 
 var defaults = {
     start: null,
@@ -252,4 +253,4 @@ Dragger.prototype.hasDragged = hasDragged;
 
 return Dragger;
 
-}());
+}())

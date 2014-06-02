@@ -3,8 +3,10 @@
  *  https://github.com/cuth/dragger
  *  @preserve
  */
+
 define(['jquery'], function ($) {
-    'use strict';
+
+'use strict';
 
 var defaults = {
     start: null,

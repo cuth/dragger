@@ -3,8 +3,10 @@
  *  https://github.com/cuth/dragger
  *  @preserve
  */
+
 define(function () {
-    'use strict';
+
+'use strict';
 
 var defaults = {
     start: null,

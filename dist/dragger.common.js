@@ -3,8 +3,6 @@
  *  https://github.com/cuth/dragger
  *  @preserve
  */
-module.exports = (function () {
-    'use strict';
 
 var defaults = {
     start: null,
@@ -247,6 +245,4 @@ Dragger.prototype.setBounds = setBounds;
 Dragger.prototype.setPosition = setPosition;
 Dragger.prototype.hasDragged = hasDragged;
 
-return Dragger;
-
-}());
+module.exports = Dragger;

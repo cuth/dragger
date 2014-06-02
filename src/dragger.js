@@ -238,5 +238,3 @@ var Dragger = function (el, options) {
 Dragger.prototype.setBounds = setBounds;
 Dragger.prototype.setPosition = setPosition;
 Dragger.prototype.hasDragged = hasDragged;
-
-return Dragger;
