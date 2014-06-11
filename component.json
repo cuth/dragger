@@ -6,6 +6,6 @@
     "author": "Jonathan Cuthbert",
     "license": "MIT",
     "dependencies": {
-        "jquery/jquery": "*"
+        "components/jquery": "2.1.0"
     }
 }
