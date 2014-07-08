@@ -4,6 +4,8 @@
  *  @preserve
  */
 
+'use strict';
+
 var defaults = {
     start: null,
     drag: null,
@@ -219,6 +221,17 @@ var bindEvents = function () {
     this.el.addEventListener('click', preventClickWhenDrag.bind(this));
 };
 
+var unbindEvents = function () {
+    this.el.removeEventListener('mousedown', eventMouseDown.bind(this));
+    document.removeEventListener('mousemove', eventMouseMove.bind(this));
+    document.removeEventListener('mouseup', eventMouseUp.bind(this));
+    this.el.removeEventListener('touchstart', eventTouchStart.bind(this));
+    this.el.removeEventListener('touchmove', eventTouchMove.bind(this));
+    this.el.removeEventListener('touchend', eventTouchEnd.bind(this));
+    this.el.removeEventListener('dragstart', preventDragStart.bind(this));
+    this.el.removeEventListener('click', preventClickWhenDrag.bind(this));
+};
+
 var init = function (el, options) {
     this.el = (typeof el === 'string') ? document.querySelector(el) : el;
     if (typeof this.el !== 'object') return false;
@@ -244,5 +257,11 @@ var Dragger = function (el, options) {
 Dragger.prototype.setBounds = setBounds;
 Dragger.prototype.setPosition = setPosition;
 Dragger.prototype.hasDragged = hasDragged;
+
+Dragger.prototype.destroy = function () {
+    unbindEvents.call(this);
+    extend(this.opts, defaults);
+    extend(this.bounds, defaultBounds);
+};
 
 module.exports = Dragger;
