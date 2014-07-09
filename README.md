@@ -3,9 +3,12 @@ Dragger
 
 Dragger is a module that gives you the ability to drag anything with either the mouse or touch events. It doesn't do anything to the element except for add listeners. Add the functions 'start', 'drag', and 'stop' to get the position at each step.
 
+Dragger(element [, options][, bounds])
+
 Example
 -------
-```javascript
+
+```js
 // Use an element or query selector as the first parameter
 // Use an object to overwrite the defaults for the second parameter
 var dragger = new Dragger('#elementId', {
@@ -49,11 +52,20 @@ dragger.setBounds(
 
 // Check to see if the dragger handle has moved before allowing a click
 dragger.hasDragged(); // returns true or false
+
+// Disable the instance
+dragger.disable();
+
+// Re-enable the instance
+dragger.enable();
 ```
+
 
 jQuery
 ------
+
 The jQuery version supports jQuery objects as the first parameter as well as a jQuery plugin syntax.
-```javascript
+
+```js
 var dragger = $('#elementId').Dragger(/* { options } */);
 ```
