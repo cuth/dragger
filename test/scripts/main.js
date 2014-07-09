@@ -89,6 +89,10 @@
         },
         allowHorizontalScrolling: true
     });
-    exports.destroy.destroy();
+    console.log($.extend({}, exports.destroy));
+    exports.destroy.uninit();
+    console.log($.extend({}, exports.destroy));
+    exports.destroy.init();
+    console.log($.extend({}, exports.destroy));
 
 }(this, jQuery));

@@ -234,11 +234,8 @@ var unbindEvents = function () {
     this.el.removeEventListener('click', preventClickWhenDrag.bind(this));
 };
 
-var init = function (el, options) {
-    this.el = (typeof el === 'string') ? document.querySelector(el) : el;
-    if (typeof this.el !== 'object') return false;
-    this.opts = extend({}, defaults, options);
-    this.bounds = extend({}, defaultBounds);
+var init = function () {
+    if (this.enabled || typeof this.el !== 'object') return false;
 
     // initial position of the element that will be dragged
     this.handle = { x: this.opts.initX, y: this.opts.initY };
@@ -253,18 +250,27 @@ var init = function (el, options) {
     return true;
 };
 
-var Dragger = function (el, options) {
-    this.result = init.call(this, el, options);
+var uninit = function () {
+    if (!this.enabled) return;
+    unbindEvents.call(this);
+    delete this.handle;
+    delete this.dragStart;
+    delete this.isDragging;
+    delete this.isScrolling;
+    delete this.enabled;
+};
+
+var Dragger = function (el, options, bounds) {
+    this.el = (typeof el === 'string') ? document.querySelector(el) : el;
+    this.opts = extend({}, defaults, options);
+    this.bounds = extend({}, defaultBounds, bounds);
+    this.enabled = init.call(this);
 };
 Dragger.prototype.setBounds = setBounds;
 Dragger.prototype.setPosition = setPosition;
 Dragger.prototype.hasDragged = hasDragged;
-
-Dragger.prototype.destroy = function () {
-    unbindEvents.call(this);
-    extend(this.opts, defaults);
-    extend(this.bounds, defaultBounds);
-};
+Dragger.prototype.enable = init;
+Dragger.prototype.disable = uninit;
 
 return Dragger;
 
