@@ -223,11 +223,19 @@ var bindEvents = function () {
     this.el.addEventListener('click', preventClickWhenDrag.bind(this));
 };
 
-var init = function (el, options) {
-    this.el = (typeof el === 'string') ? document.querySelector(el) : el;
-    if (typeof this.el !== 'object') return false;
-    this.opts = extend({}, defaults, options);
-    this.bounds = extend({}, defaultBounds);
+var unbindEvents = function () {
+    this.el.removeEventListener('mousedown', eventMouseDown.bind(this));
+    document.removeEventListener('mousemove', eventMouseMove.bind(this));
+    document.removeEventListener('mouseup', eventMouseUp.bind(this));
+    this.el.removeEventListener('touchstart', eventTouchStart.bind(this));
+    this.el.removeEventListener('touchmove', eventTouchMove.bind(this));
+    this.el.removeEventListener('touchend', eventTouchEnd.bind(this));
+    this.el.removeEventListener('dragstart', preventDragStart.bind(this));
+    this.el.removeEventListener('click', preventClickWhenDrag.bind(this));
+};
+
+var init = function () {
+    if (this.enabled || typeof this.el !== 'object') return false;
 
     // initial position of the element that will be dragged
     this.handle = { x: this.opts.initX, y: this.opts.initY };
@@ -242,12 +250,27 @@ var init = function (el, options) {
     return true;
 };
 
-var Dragger = function (el, options) {
-    this.result = init.call(this, el, options);
+var uninit = function () {
+    if (!this.enabled) return;
+    unbindEvents.call(this);
+    delete this.handle;
+    delete this.dragStart;
+    delete this.isDragging;
+    delete this.isScrolling;
+    delete this.enabled;
+};
+
+var Dragger = function (el, options, bounds) {
+    this.el = (typeof el === 'string') ? document.querySelector(el) : el;
+    this.opts = extend({}, defaults, options);
+    this.bounds = extend({}, defaultBounds, bounds);
+    this.enabled = init.call(this);
 };
 Dragger.prototype.setBounds = setBounds;
 Dragger.prototype.setPosition = setPosition;
 Dragger.prototype.hasDragged = hasDragged;
+Dragger.prototype.enable = init;
+Dragger.prototype.disable = uninit;
 
 return Dragger;
 

@@ -79,4 +79,20 @@
         }
     });
 
+    // Destroy
+    exports.destroy = new Dragger('.destroy', {
+        drag: function (pos) {
+            $(this.el).find('img').css({ left: pos.x, top: pos.y });
+        },
+        stop: function () {
+            console.log(arguments);
+        },
+        allowHorizontalScrolling: true
+    });
+    console.log($.extend({}, exports.destroy));
+    exports.destroy.uninit();
+    console.log($.extend({}, exports.destroy));
+    exports.destroy.init();
+    console.log($.extend({}, exports.destroy));
+
 }(this, jQuery));

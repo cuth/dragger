@@ -12,11 +12,13 @@
 }
 
 .position,
-.text {
+.text,
+.destroy {
     position: relative;
 }
 .position img,
-.text .wrap {
+.text .wrap,
+.destroy img {
     position: absolute;
     left: 0;
     top: 0;

@@ -4,6 +4,8 @@
  *  @preserve
  */
 
+'use strict';
+
 var $ = require('jquery');
 
 var defaults = {

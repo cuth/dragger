@@ -22,7 +22,7 @@ var COMMON_$_HEAD = "'use strict';\n\nvar $ = require('jquery');\n\n";
 var COMMON_$_FOOT = COMMON_FOOT;
 
 var GLOBAL_HEAD   = "var Dragger = (function () {\n\n'use strict';\n\n";
-var GLOBAL_FOOT   = "\n\nreturn Dragger;\n\n}())";
+var GLOBAL_FOOT   = "\n\nreturn Dragger;\n\n}());";
 var GLOBAL_$_HEAD = "var Dragger = (function ($) {\n\n'use strict';\n\n";
 var GLOBAL_$_FOOT = "\n\nreturn Dragger;\n\n}(jQuery || Zepto || ender || $));";
 
