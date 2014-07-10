@@ -13,18 +13,12 @@ var BANNER = "\
 
 var AMD_HEAD      = "define(function () {\n\n'use strict';\n\n";
 var AMD_FOOT      = "\n\nreturn Dragger;\n\n});";
-var AMD_$_HEAD    = "define(['jquery'], function ($) {\n\n'use strict';\n\n";
-var AMD_$_FOOT    = AMD_FOOT;
 
 var COMMON_HEAD   = "'use strict';\n\n";
 var COMMON_FOOT   = "\n\nmodule.exports = Dragger;";
-var COMMON_$_HEAD = "'use strict';\n\nvar $ = require('jquery');\n\n";
-var COMMON_$_FOOT = COMMON_FOOT;
 
 var GLOBAL_HEAD   = "var Dragger = (function () {\n\n'use strict';\n\n";
 var GLOBAL_FOOT   = "\n\nreturn Dragger;\n\n}());";
-var GLOBAL_$_HEAD = "var Dragger = (function ($) {\n\n'use strict';\n\n";
-var GLOBAL_$_FOOT = "\n\nreturn Dragger;\n\n}(jQuery || Zepto || ender || $));";
 
 
 gulp.task('build-amd', function () {
@@ -49,26 +43,4 @@ gulp.task('build-global', function () {
 
 gulp.task('build', ['build-amd', 'build-commonjs', 'build-global']);
 
-gulp.task('build-amd-jquery', function () {
-    gulp.src('src/jquery.dragger.js')
-        .pipe(rename('jquery.dragger.amd.js'))
-        .pipe(insert.wrap(BANNER + AMD_$_HEAD, AMD_$_FOOT))
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('build-commonjs-jquery', function () {
-    gulp.src('src/jquery.dragger.js')
-        .pipe(rename('jquery.dragger.common.js'))
-        .pipe(insert.wrap(BANNER + COMMON_$_HEAD, COMMON_$_FOOT))
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('build-global-jquery', function () {
-    gulp.src('src/jquery.dragger.js')
-        .pipe(insert.wrap(BANNER + JSHINT_EXPORTED + GLOBAL_$_HEAD, GLOBAL_$_FOOT))
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('build-jquery', ['build-amd-jquery', 'build-commonjs-jquery', 'build-global-jquery']);
-
-gulp.task('default', ['build', 'build-jquery']);
+gulp.task('default', ['build']);

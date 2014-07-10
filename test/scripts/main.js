@@ -90,9 +90,9 @@
         allowHorizontalScrolling: true
     });
     console.log($.extend({}, exports.destroy));
-    exports.destroy.uninit();
+    exports.destroy.disable();
     console.log($.extend({}, exports.destroy));
-    exports.destroy.init();
+    exports.destroy.enable();
     console.log($.extend({}, exports.destroy));
 
 }(this, jQuery));
