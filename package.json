@@ -4,14 +4,16 @@
   "description": "Make any element draggable for touch or mouse",
   "main": "dist/dragger.common.js",
   "scripts": {
-    "test": "test/index.html"
+    "test": "test/index.html",
+    "test-amd": "test/amd.html"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/cuth/dragger.git"
   },
   "keywords": [
-    "drag"
+    "drag",
+    "swipe"
   ],
   "author": "Jonathan Cuthbert",
   "license": "MIT",
