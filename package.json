@@ -1,7 +1,7 @@
 {
   "name": "dragger",
   "version": "1.3.0",
-  "description": "Make any element draggable for touch or mouse",
+  "description": "Make anything draggable for mobile and desktop",
   "main": "dist/dragger.common.js",
   "scripts": {
     "test": "test/index.html",
