@@ -240,7 +240,8 @@ var init = function () {
     this.el.style.msTouchAction = 'none';
 
     bindEvents.call(this);
-    return true;
+
+    this.enabled = true;
 };
 
 var uninit = function () {
@@ -258,7 +259,7 @@ var Dragger = function (el, options, bounds) {
     this.el = (typeof el === 'string') ? document.querySelector(el) : el;
     this.opts = extend({}, defaults, options);
     this.bounds = extend({}, defaultBounds, bounds);
-    this.enabled = init.call(this);
+    init.call(this);
 };
 Dragger.prototype.setBounds = setBounds;
 Dragger.prototype.setPosition = setPosition;
