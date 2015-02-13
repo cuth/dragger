@@ -1,6 +1,6 @@
 {
   "name": "dragger",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Make anything draggable for mobile and desktop",
   "main": "dist/dragger.common.js",
   "repository": {

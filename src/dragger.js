@@ -236,8 +236,16 @@ var init = function () {
     this.isDragging = false;
     this.isScrolling = false;
 
-    // add -ms-touch-action: none; to make it work in Windows
-    this.el.style.msTouchAction = 'none';
+    if (this.opts.allowVerticalScrolling) {
+        this.el.style.msTouchAction = 'pan-y';
+        this.el.style.touchAction = 'pan-y';
+    } else if (this.opts.allowHorizontalScrolling) {
+        this.el.style.msTouchAction = 'pan-x';
+        this.el.style.touchAction = 'pan-x';
+    } else {
+        this.el.style.msTouchAction = 'none';
+        this.el.style.touchAction = 'none';
+    }
 
     bindEvents.call(this);
 
